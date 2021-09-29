@@ -86,6 +86,7 @@ const SignUp: React.FC = () => {
           <Container>
             <Image source={logoImg} />
             <Title>Crie sua conta</Title>
+            
             <GestureHandlerRootView>
               <Form ref={formRef} onSubmit={handleSignUp}>
                 <Input
@@ -132,6 +133,7 @@ const SignUp: React.FC = () => {
                 </Button>
               </Form>
             </GestureHandlerRootView>
+            
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
