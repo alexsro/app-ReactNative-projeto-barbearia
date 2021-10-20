@@ -2,9 +2,11 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import { format } from 'date-fns/esm';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Provider } from './types';
+import { RootStackParamList } from '../RootPagesList';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
@@ -31,6 +33,8 @@ import {
   SectionContent,
   Hour,
   HourText,
+  CreateAppointmentButton,
+  CreateAppointmentButtonText,
 } from './styles';
 
 interface RouteParams {
@@ -42,10 +46,15 @@ interface AvailabilityItem {
   available: boolean;
 }
 
+type createAppointmentScreenProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'AppointmentCreated'
+>;
+
 const CreateAppointment: React.FC = () => {
   const { user } = useAuth();
   const route = useRoute();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation<createAppointmentScreenProps>();
 
   const routeParams = route.params as RouteParams;
 
@@ -106,6 +115,32 @@ const CreateAppointment: React.FC = () => {
     [],
   );
 
+  const handleSelectHour = useCallback((hour: number) => {
+    setselectedHour(hour);
+  }, []);
+
+  const handleCreateAppointment = useCallback(async () => {
+    try {
+      const date = format(
+        new Date().setHours(selectedHour),
+        'yyyy-MM-dd HH:00:00',
+      ); // new Date(selectedDate);
+      const appointmentDate = date;
+
+      await api.post('appointments', {
+        provider_id: selectedProvider,
+        date,
+      });
+
+      navigate('AppointmentCreated', { appointmentDate });
+    } catch (error) {
+      Alert.alert(
+        'Erro ao criar agendamento',
+        'Ocorrei um erro ao criar um  agendamento, tente novamento',
+      );
+    }
+  }, [selectedHour, selectedProvider, navigate]);
+
   const morningAvailability = useMemo(() => {
     return availability
       .filter(({ hour }) => hour < 12)
@@ -129,10 +164,6 @@ const CreateAppointment: React.FC = () => {
         };
       });
   }, [availability]);
-
-  const handleSelectHour = useCallback((hour: number) => {
-    setselectedHour(hour);
-  }, []);
 
   return (
     <Container>
@@ -191,7 +222,7 @@ const CreateAppointment: React.FC = () => {
             <SectionContent>
               {morningAvailability.map(({ hourFormatted, hour, available }) => (
                 <Hour
-                  enabled={available}
+                  disabled={!available}
                   selected={selectedHour === hour}
                   available={available}
                   key={hourFormatted}
@@ -211,7 +242,7 @@ const CreateAppointment: React.FC = () => {
               {afternoonAvailability.map(
                 ({ hourFormatted, hour, available }) => (
                   <Hour
-                    enabled={available}
+                    disabled={!available}
                     selected={selectedHour === hour}
                     available={available}
                     key={hourFormatted}
@@ -226,6 +257,9 @@ const CreateAppointment: React.FC = () => {
             </SectionContent>
           </Section>
         </Schedule>
+        <CreateAppointmentButton onPress={handleCreateAppointment}>
+          <CreateAppointmentButtonText>Agendar</CreateAppointmentButtonText>
+        </CreateAppointmentButton>
       </Content>
     </Container>
   );

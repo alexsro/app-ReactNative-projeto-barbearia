@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { FlatList } from 'react-native';
+import { FlatList, Pressable } from 'react-native';
 import { Provider } from './types';
 
 interface ProviderContainerProps {
@@ -122,7 +122,7 @@ export const SectionContent = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
 })``;
 
-export const Hour = styled.TouchableOpacity<HourProps>`
+export const Hour = styled(Pressable)<HourProps>`
   padding: 12px;
   background: ${props => (props.selected ? '#ff9000' : '#3e3b47')};
   border-radius: 10px;
@@ -135,4 +135,19 @@ export const HourText = styled.Text<HourTextProps>`
   color: ${props => (props.selected ? '#232129' : '#f4ede8')};
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
+`;
+
+export const CreateAppointmentButton = styled.TouchableOpacity`
+  height: 50px;
+  background: #ff9000;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 24px 24px;
+`;
+
+export const CreateAppointmentButtonText = styled.Text`
+  font-family: 'RobotoSlab-Medium';
+  font-size: 18px;
+  color: #232129;
 `;

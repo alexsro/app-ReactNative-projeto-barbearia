@@ -33,7 +33,6 @@ import {
   CreateAccountButtonText,
 } from './styles';
 
-
 interface SignInFormData {
   email: string;
   password: string;
@@ -96,7 +95,7 @@ const SignIn: React.FC = () => {
             <Image source={logoImg} />
 
             <Title>Faça seu logon</Title>
-            
+
             <GestureHandlerRootView>
               <Form ref={formRef} onSubmit={handleSignIn}>
                 <Input
