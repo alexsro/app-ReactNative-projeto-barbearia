@@ -4,5 +4,5 @@ export type RootStackParamList = {
   Dashboard: undefined;
   CreateAppointment: { providerId: string };
   Profile: undefined;
-  AppointmentCreated: { appointmentDate: number };
+  AppointmentCreated: { appointmentDate: string };
 };

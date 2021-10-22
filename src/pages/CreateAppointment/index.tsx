@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform, Alert } from 'react-native';
 import { format } from 'date-fns/esm';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import ptBR from 'date-fns/locale/pt-BR/index.js';
 import { Provider } from './types';
 import { RootStackParamList } from '../RootPagesList';
 
@@ -122,10 +123,15 @@ const CreateAppointment: React.FC = () => {
   const handleCreateAppointment = useCallback(async () => {
     try {
       const date = format(
-        new Date().setHours(selectedHour),
+        new Date(selectedDate).setHours(selectedHour),
         'yyyy-MM-dd HH:00:00',
-      ); // new Date(selectedDate);
-      const appointmentDate = date;
+      );
+
+      const appointmentDate = format(
+        new Date(selectedDate).setHours(selectedHour),
+        "EEEE', dia' dd 'de' MMM 'de' yyyy 'às' HH:mm'h'",
+        { locale: ptBR },
+      );
 
       await api.post('appointments', {
         provider_id: selectedProvider,
@@ -139,7 +145,7 @@ const CreateAppointment: React.FC = () => {
         'Ocorrei um erro ao criar um  agendamento, tente novamento',
       );
     }
-  }, [selectedHour, selectedProvider, navigate]);
+  }, [selectedDate, selectedHour, selectedProvider, navigate]);
 
   const morningAvailability = useMemo(() => {
     return availability

@@ -55,7 +55,7 @@ const SignUp: React.FC = () => {
         await api.post('/users', data);
 
         Alert.alert(
-          'Cadastro realizado com sucess!',
+          'Cadastro realizado com sucesss!',
           'Você ja pode fazer login na aplicação',
         );
 
@@ -90,7 +90,7 @@ const SignUp: React.FC = () => {
           <Container>
             <Image source={logoImg} />
             <Title>Crie sua conta</Title>
-            
+
             <GestureHandlerRootView>
               <Form ref={formRef} onSubmit={handleSignUp}>
                 <Input
@@ -137,7 +137,6 @@ const SignUp: React.FC = () => {
                 </Button>
               </Form>
             </GestureHandlerRootView>
-            
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>

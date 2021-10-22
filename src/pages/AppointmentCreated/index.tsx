@@ -23,8 +23,8 @@ type appointmentCreatedScreenProps = NativeStackNavigationProp<
 
 const AppointmentCreated: React.FC = () => {
   const { reset } = useNavigation<appointmentCreatedScreenProps>();
-  const route = useRoute();
-  const routeParams = route.params as RouteParams;
+  const { params } = useRoute();
+  const routeParams = params as RouteParams;
 
   const handleOkPressed = useCallback(() => {
     reset({
@@ -37,7 +37,7 @@ const AppointmentCreated: React.FC = () => {
     <Container>
       <Icon name="check" size={80} color="#04d361" />
       <Title>Agendamento concluído</Title>
-      <Description>Dia {routeParams.appointmentDate}</Description>
+      <Description>{routeParams.appointmentDate}</Description>
       <OkButton onPress={() => {}}>
         <OkButtonText onPress={handleOkPressed}>Ok</OkButtonText>
       </OkButton>
