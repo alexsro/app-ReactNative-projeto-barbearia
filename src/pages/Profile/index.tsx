@@ -23,6 +23,7 @@ import Button from '../../components/Button';
 import {
   Container,
   Title,
+  PowerButton,
   BackButton,
   UserAvatarButton,
   UserAvatar,
@@ -38,7 +39,7 @@ interface ProfileFormData {
 }
 
 const Profile: React.FC = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, signOut } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
   const oldpasswordInputRef = useRef<TextInput>(null);
@@ -49,6 +50,10 @@ const Profile: React.FC = () => {
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+
+  const handleSignOut = useCallback(() => {
+    signOut();
+  }, [signOut]);
 
   const handleProfile = useCallback(
     async (data: ProfileFormData) => {
@@ -158,6 +163,10 @@ const Profile: React.FC = () => {
             <BackButton onPress={handleGoBack}>
               <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
+
+            <PowerButton onPress={handleSignOut}>
+              <Icon name="power" size={24} color="#999591" />
+            </PowerButton>
 
             <UserAvatarButton onPress={handleUpdateAvatar}>
               <UserAvatar

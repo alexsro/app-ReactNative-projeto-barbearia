@@ -15,6 +15,10 @@ export const Title = styled.Text`
   margin: 24px 0;
 `;
 
+export const PowerButton = styled.TouchableOpacity`
+  align-self: flex-end;
+`;
+
 export const BackButton = styled.TouchableOpacity`
   margin-top: 150px;
 `;
